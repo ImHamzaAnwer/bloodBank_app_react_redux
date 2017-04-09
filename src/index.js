@@ -20,6 +20,7 @@ import MainComponent from './components/Main';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import DonorReg from './components/DonorReg';
+import Dashboard from './components/Dashboard';
 ReactDOM.render(
   // <Provider store={store}>
     <MuiThemeProvider>
@@ -29,6 +30,7 @@ ReactDOM.render(
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login}/>
           <Route path="/donor_registration" component={DonorReg}/>
+          <Route path="/dashboard" component={Dashboard}/>
         </MainComponent>
       </BrowserRouter>
       </Provider>

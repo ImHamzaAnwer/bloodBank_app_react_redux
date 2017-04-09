@@ -8,6 +8,7 @@ const Nav = () => (
       <span>
         <Link to="/signup"><FlatButton label="SignUp" /></Link>
         <Link to="/login"><FlatButton label="Login" /></Link>
+        <Link to="/dashboard"><FlatButton label="dashboard" /></Link>
       </span>}
   />
 );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Paper, TextField, RaisedButton } from 'material-ui';
 import { DonorRegActions } from '../store/actions/DonorRegActions';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 
 function mapStateToProps(donorState) {
@@ -25,7 +25,7 @@ class DonorRegCont extends Component {
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.props.DonorRegReducer);
         return (
             <div>
                 <Paper zDepth={2} style={{ width: "50%", padding: "15px", margin: "70px auto", textAlign: "center" }}>
