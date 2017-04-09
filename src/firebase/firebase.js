@@ -1,12 +1,12 @@
 import * as firebase from "firebase";
 
 var config = {
-    apiKey: "AIzaSyCY6EZ9VzahZ25By35N66Bm-Rt0I3-nNyI",
-    authDomain: "todo-app-react-7acd7.firebaseapp.com",
-    databaseURL: "https://todo-app-react-7acd7.firebaseio.com",
-    projectId: "todo-app-react-7acd7",
-    storageBucket: "todo-app-react-7acd7.appspot.com",
-    messagingSenderId: "334234985197"
+    apiKey: "AIzaSyC6fewk3LM8TWKRKrq4GhmDq4XPCDVNSi8",
+    authDomain: "blood-bank-app-reactredux.firebaseapp.com",
+    databaseURL: "https://blood-bank-app-reactredux.firebaseio.com",
+    projectId: "blood-bank-app-reactredux",
+    storageBucket: "blood-bank-app-reactredux.appspot.com",
+    messagingSenderId: "938774298715"
   };
   
 firebase.initializeApp(config);
