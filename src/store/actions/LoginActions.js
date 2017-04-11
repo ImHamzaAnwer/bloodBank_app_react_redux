@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-
+import {browserHistory} from 'react-router';
 export class LoginActions{
     static LOGINSUCCESS  = "LOGIN_SUCCESS"
 
@@ -10,9 +10,9 @@ export class LoginActions{
     static Login(loginData){
         return(dispatch)=>{
             firebase.auth().signInWithEmailAndPassword(loginData.email,loginData.pass).then((loginResponse)=>{
-                console.log(loginResponse);
                 dispatch(LoginActions.LoginSuccess());
-            });
+
+        });
         }
     }
 }

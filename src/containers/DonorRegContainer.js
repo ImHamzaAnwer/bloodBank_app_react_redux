@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { Paper, TextField, RaisedButton } from 'material-ui';
+import { Paper, TextField, RaisedButton, DropDownMenu, MenuItem } from 'material-ui';
 import { DonorRegActions } from '../store/actions/DonorRegActions';
 import { connect } from 'react-redux';
 
+
+var bloodgroups = [
+    "A+", "B+", "AB+",
+    "O+", "A-", "B-",
+    "AB-", "O-"
+]
 
 function mapStateToProps(donorState) {
     return donorState;
@@ -11,15 +17,23 @@ function mapStateToProps(donorState) {
 class DonorRegCont extends Component {
     constructor() {
         super();
+        this.state = {
+            BloodGroupVal: "",
+            value: 1
+        }
         this._handleDonorReg = this._handleDonorReg.bind(this);
+        this._handleDropdown = this._handleDropdown.bind(this);
     }
+
+    _handleDropdown = (event, index, value) => this.setState({ BloodGroupVal: value });
 
     _handleDonorReg() {
         var donorData = {
-            bloodGroup: this.refs.bloodGroup.getValue(),
+            donorName: this.refs.donorName.getValue(),
+            bloodGroup: this.state.BloodGroupVal,
             age: this.refs.age.getValue(),
             address: this.refs.address.getValue(),
-            health: this.refs.health.getValue()
+            contact: this.refs.contact.getValue()
         }
         this.props.dispatch(DonorRegActions.donorSignup(donorData));
     }
@@ -31,15 +45,27 @@ class DonorRegCont extends Component {
                 <Paper zDepth={2} style={{ width: "50%", padding: "15px", margin: "70px auto", textAlign: "center" }}>
                     <h1>Donor Registration</h1>
                     <TextField
+                        ref="donorName"
+                        type="text"
+                        floatingLabelText="Donor Name"
+                        fullWidth={true}
+                    /><br />
+
+                    <DropDownMenu value={this.state.BloodGroupVal} onChange={this._handleDropdown}>
+                        {
+                            bloodgroups.map((bloodgroup, idx) => {
+                                return <MenuItem key={idx} value={bloodgroup} primaryText={bloodgroup} />;
+                            })
+                        }
+                    </DropDownMenu>
+                    <br />
+
+
+                    <br />
+                    <TextField
                         ref="age"
                         type="text"
                         floatingLabelText="Age"
-                        fullWidth={true}
-                    /><br />
-                    <TextField
-                        ref="bloodGroup"
-                        type="text"
-                        floatingLabelText="Blood Group"
                         fullWidth={true}
                     /><br />
                     <TextField
@@ -49,11 +75,11 @@ class DonorRegCont extends Component {
                         fullWidth={true}
                     /><br />
                     <TextField
-                        ref="health"
+                        ref="contact"
                         type="text"
-                        floatingLabelText="Health"
+                        floatingLabelText="Contact Number"
                         fullWidth={true}
-                    />
+                    /><br />
                     <RaisedButton label="submit" onClick={this._handleDonorReg} />
                 </Paper>
             </div>

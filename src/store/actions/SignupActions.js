@@ -1,21 +1,21 @@
 import * as firebase from 'firebase';
-// import {HashRouter} from "react-router-dom";
-// import {push} from 'react-router-redux';
-
-export class SignupActions{
+import { browserHistory } from 'react-router';
+export class SignupActions {
     static SIGNUP = "SIGNUP";
     static SIGNUPSUCCESS = "SIGNUP_SUCCESS";
 
-    static SignupSuccess(){
+    static SignupSuccess() {
         return { type: SignupActions.SIGNUPSUCCESS }
     }
 
-    static Signup(signupData){
-        return (dispatch)=>{
-            firebase.auth().createUserWithEmailAndPassword(signupData.email, signupData.password).then((response)=>{
-                console.log(response)
-                firebase.database().ref().child("userData/").push(signupData);
-                dispatch(SignupActions.SignupSuccess());             
+    static Signup(signupData) {
+        return (dispatch) => {
+            firebase.auth().createUserWithEmailAndPassword(signupData.email, signupData.password).then((response) => {
+                //  console.log(response,"response from firebase")
+                firebase.database().ref().child("userData/").push(signupData).then((res) => {
+                    browserHistory.push("/login");
+                });
+                dispatch(SignupActions.SignupSuccess());
             });
         }
     }

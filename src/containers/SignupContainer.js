@@ -25,7 +25,7 @@ class Signup extends Component {
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props.SignupReducer);
         return (
             <div>
                 <Paper zDepth={2} style={{ width: "50%", padding: "15px", margin: "70px auto", textAlign: "center" }}>
