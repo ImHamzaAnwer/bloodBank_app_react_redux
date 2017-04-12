@@ -1,6 +1,6 @@
 import {DashboardActions} from '../actions/DashboardActions';
 
-const DASHBOARD_INITIAL_STATE = {dataFetched: false, data:[], data1:[], data2:[]};
+const DASHBOARD_INITIAL_STATE = {dataFetched: false, data:[]};
 
 export var DashboardReducer = (state = DASHBOARD_INITIAL_STATE ,action)=>{
     switch(action.type){

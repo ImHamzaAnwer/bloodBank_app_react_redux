@@ -22,6 +22,7 @@ import Login from './components/Login';
 import DonorReg from './components/DonorReg';
 import Dashboard from './components/Dashboard';
 import { DashboardActions } from './store/actions/DashboardActions';
+
 store.dispatch(DashboardActions.fetching());
 ReactDOM.render(
   // <Provider store={store}>
@@ -29,7 +30,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={MainComponent}>
-          <IndexRoute component={Signup}/>
+          <IndexRoute component={Login}/>
           <Route path="signup" component={Signup} />
           <Route path="login" component={Login} />
           <Route path="donor_registration" component={DonorReg} />

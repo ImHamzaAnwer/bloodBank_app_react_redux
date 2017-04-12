@@ -11,7 +11,7 @@ export class LoginActions{
         return(dispatch)=>{
             firebase.auth().signInWithEmailAndPassword(loginData.email,loginData.pass).then((loginResponse)=>{
                 dispatch(LoginActions.LoginSuccess());
-
+                browserHistory.push("/dashboard");
         });
         }
     }

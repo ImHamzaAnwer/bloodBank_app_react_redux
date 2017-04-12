@@ -1,34 +1,32 @@
 import * as firebase from 'firebase';
+import { browserHistory } from 'react-router';
 
 export class DashboardActions {
     static FETCH_FROM_FIREBASE = "FETCH_FROM_FIREBASE";
     static FILTER_SUCCESS = "FILTER_SUCCESS";
 
-    static filterSuccess(data1,data2){
-        return { 
-            type: DashboardActions.FILTER_SUCCESS,
-            payload1: data1,
-            payload2: data2
-         };
-    }
-    static filter(sortData) {
+    static checkLogin(loginState) {
         return (dispatch) => {
-            var arr1 = [];
-            var arr2 = [];
-            for (var i = 0; i < sortData.length; i++) {
-                if (sortData[i].bloodGroup == "A+" || sortData[i].bloodGroup == "B+") {
-                    arr1.push(sortData[i]);
-                    console.log(arr1, "A+ can give to these")
-                }
-
-                
-                if (sortData[i].bloodGroup == "B+" || sortData[i].bloodGroup == "O+") {
-                    arr2.push(sortData[i]);
-                    console.log(arr2, "B+ can give to these")
-                }
+            if (loginState == false) {
+                browserHistory.replace("/login");
+            } else {
+                browserHistory.replace("/dashboard");
             }
-            dispatch(DashboardActions.filterSuccess(arr1,arr2));
         }
+    }
+
+    static signout(loginState) {
+        return (dispatch) => {
+            firebase.auth().signOut().then(function () {
+                browserHistory.replace("/login");
+            })
+        }
+    }
+
+    static filterSuccess(data1, data2) {
+        return {
+            type: DashboardActions.FILTER_SUCCESS
+        };
     }
 
     static fetchFromFirebase(data) {
@@ -37,18 +35,29 @@ export class DashboardActions {
             payload: data
         }
     }
-    static fetching() {
+
+    static fetching(blood) {
         return (dispatch) => {
             let refRoot = firebase.database().ref().child('donorData/');
             refRoot.on('value', (snapshot) => {
-                var arr = [];
+                var arr = []; // all users data come to this array 
+                var arr2 = []; // filtered data
+
                 var donorObj = snapshot.val();
                 for (var key in donorObj) {
                     arr.push(donorObj[key]);
                     // console.log(arr);
                 }
-                console.log(arr);
-                dispatch(DashboardActions.fetchFromFirebase(arr));
+
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].bloodGroup === blood) {
+                        arr2.push(arr[i]);
+                    } else if (blood == "") {
+                        arr2.push(arr[i]);
+                    }
+                }
+                console.log(arr2, "arr2");
+                dispatch(DashboardActions.fetchFromFirebase(arr2));
             });
         }
     }

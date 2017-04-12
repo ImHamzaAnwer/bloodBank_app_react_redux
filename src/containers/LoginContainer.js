@@ -8,20 +8,13 @@ function mapStateToProps(loginState) {
 }
 
 class LoginContainer extends Component {
-    validate() {
-        if (this.props.LoginReducer.isLogin === true)
-            browserHistory.push("/dashboard");
-        else
-            browserHistory.push("/login");
-    }
-
-
     handleLoginSubmit() {
         var loginData = {
             email: this.refs.loginEmail.getValue(),
             pass: this.refs.loginPass.getValue()
         }
         this.props.dispatch(LoginActions.Login(loginData));
+        
     }
 
     render() {

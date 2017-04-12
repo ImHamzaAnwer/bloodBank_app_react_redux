@@ -11,6 +11,11 @@ class Signup extends Component {
     constructor() {
         super();
         this._handleSignupSubmit = this._handleSignupSubmit.bind(this);
+        this._fbLogin = this._fbLogin.bind(this);
+}
+
+    _fbLogin(){
+        this.props.dispatch(SignupActions.fbLogin());
     }
 
     _handleSignupSubmit() {
@@ -55,6 +60,7 @@ class Signup extends Component {
                         fullWidth={true}
                     />
                     <RaisedButton label="submit" onClick={this._handleSignupSubmit}/>
+                    <RaisedButton label="Facebook Login" onClick={this._fbLogin}/>
                 </Paper>
             </div>
         );

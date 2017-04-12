@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { DashboardActions } from '../store/actions/DashboardActions';
 import { connect } from 'react-redux';
-import { Card, CardHeader, CardText, FlatButton, CardActions, DropDownMenu, MenuItem } from 'material-ui';
+import { Table, TableRow, TableHeader, TableBody, TableHeaderColumn, TableRowColumn, FlatButton, DropDownMenu, MenuItem } from 'material-ui';
 import { browserHistory } from 'react-dom';
 
 var bloodGroups = ["A+", "B+", "O+"];
+var arr2 = [];
 
 function mapStateToProps(dashboardState) {
     return dashboardState;
@@ -20,52 +21,77 @@ class DashboardContainer extends Component {
         this._handleChange = this._handleChange.bind(this);
     }
 
-    _handleChange = (event, index, value) => { 
-        this.setState({ bloodGroupVal: value }) 
-        this._filterArray();
-}
 
-    fetchData() {
-        this.props.dispatch(DashboardActions.fetching());
+    componentDidMount() {
+            var loginState = this.props.LoginReducer.isLogin;
+            console.log(loginState,"yolalalalalal");
+            this.props.dispatch(DashboardActions.checkLogin(loginState));
     }
 
-    _filterArray() {
-        this.props.dispatch(DashboardActions.filter(this.props.DashboardReducer.data));
+    _signout(loginState){
+        this.props.dispatch(DashboardActions.signout(loginState));
+        console.log(loginState, "ye wlai");
+}
+
+
+    _handleChange = (event, index, value) => {
+        this.setState({ bloodGroupVal: value })
+        this.handleBloodGroup();
+        this._check();
+
+    }
+    handleBloodGroup() {
+        this.props.dispatch(DashboardActions.fetching(this.state.bloodGroupVal));
+    }
+    fetchData() {
+        this.props.dispatch(DashboardActions.fetching());
     }
 
     render() {
         //  console.log(this.props.DashboardReducer.data,"dataaa")
         return (
             <div>
+                <FlatButton label="Logout" onClick={this._signout.bind(this)}/>
                 <h1>List</h1>
+                {console.log(arr2)}
                 <h2>Filter List</h2>
+
+
+
                 <DropDownMenu value={this.state.bloodGroupVal} onChange={this._handleChange}>
                     {
-                        bloodGroups.map((vall,idx) => {
-                            return  <MenuItem key={idx} value={vall} primaryText={vall} />
+                        bloodGroups.map((vall, idx) => {
+                            return <MenuItem key={idx} value={vall} primaryText={vall} />
                         })
                     }
 
                 </DropDownMenu>
-                {
-                    this.props.DashboardReducer.data.map((val, id) => {
-                        return (
-                            <Card key={id}>
-                                <CardHeader
-                                    title={<h3>{val.donorName}</h3>}
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-                                />
-                                <CardText expandable={true}>
-                                    <h4>Blood Group: {val.bloodGroup}</h4>
-                                    <h4>Contact: {val.contact}</h4>
-                                    <h4>Age: {val.age}</h4>
-                                    <h4>Address: {val.address}</h4>
-                                </CardText>
-                            </Card>
-                        );
-                    })
-                }
+                {/*<FlatButton type="submit" onClick={this.handleBloodGroup.bind(this)}>Click</FlatButton>*/}
+
+                <Table>
+                    <TableHeader displaySelectAll={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Blood Group</TableHeaderColumn>
+                            <TableHeaderColumn>Contact Number</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false}>
+                        {
+                            this.props.DashboardReducer.data.map((val, id) => {
+                                return (
+                                    <TableRow key={id}>
+                                        <TableRowColumn>{val.donorName}</TableRowColumn>
+                                        <TableRowColumn>{val.bloodGroup}</TableRowColumn>
+                                        <TableRowColumn>{val.contact}</TableRowColumn>
+                                    </TableRow>
+                                );
+                            })
+                        }
+                    </TableBody>
+                </Table>
+
+
             </div>
         );
     }
