@@ -1,10 +1,11 @@
-import { DonorRegActions } from '../actions/DonorRegActions';
+import { DONOR_REG_SUCCESS } from '../actions/types';
 
-const DONOR_REG_STATE = { isDonor: false }
-export var DonorRegReducer = (state = DONOR_REG_STATE, action) => {
+const INITIAL_STATE = { isDonor: false }
+
+export const DonorRegReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case DonorRegActions.DONOR_REG_SUCCESS:
-            return {...state, isDonor: true};
+        case DONOR_REG_SUCCESS:
+            return { ...state, isDonor: true };
         default:
             return state;
     }

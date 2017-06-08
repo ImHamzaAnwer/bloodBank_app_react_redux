@@ -1,19 +1,16 @@
-import {createStore,applyMiddleware,combineReducers} from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import {createLogger} from 'redux-logger';
-import {SignupReducer} from './reducers/SignupReducer';
-import {LoginReducer} from './reducers/LoginReducer';
-import {DonorRegReducer} from './reducers/DonorRegReducer';
-import {DashboardReducer} from './reducers/DashboardReducer'; 
-import {DashboarActions} from './actions/DashboardActions';
+import { createLogger } from 'redux-logger';
+import  authReducer from './reducers/authReducer';
+import { DonorRegReducer } from './reducers/DonorRegReducer';
+import { DashboardReducer } from './reducers/DashboardReducer';
 
 const rootReducer = combineReducers({
-    SignupReducer,
-    LoginReducer,
-    DonorRegReducer,
-    DashboardReducer
+    auth: authReducer,
+    dashboard: DashboardReducer,
+    DonorRegReducer
 });
 
 const middleware = applyMiddleware(thunk, createLogger());
 
-export const store = createStore(rootReducer,middleware);
+export const store = createStore(rootReducer, middleware);

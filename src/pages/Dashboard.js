@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import { DashboardActions } from '../store/actions/DashboardActions';
+import { checkLogin, signout, filter, fetching } from '../store/actions/DashboardActions';
 import { connect } from 'react-redux';
 import { Table, TableRow, TableHeader, TableBody, TableHeaderColumn, TableRowColumn, FlatButton, DropDownMenu, MenuItem } from 'material-ui';
 import { browserHistory } from 'react-dom';
 
-var bloodGroups = ["A+", "B+", "O+"];
-var arr2 = [];
+var bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
-function mapStateToProps(dashboardState) {
-    return dashboardState;
-}
-
-class DashboardContainer extends Component {
+class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
@@ -23,65 +18,58 @@ class DashboardContainer extends Component {
 
 
     componentDidMount() {
-            var loginState = this.props.LoginReducer.isLogin;
-            console.log(loginState,"yolalalalalal");
-            this.props.dispatch(DashboardActions.checkLogin(loginState));
+        this.props.fetching();
+        var loginState = this.props.isLogin;
+        this.props.checkLogin(loginState);
     }
 
-    _signout(loginState){
-        this.props.dispatch(DashboardActions.signout(loginState));
-        console.log(loginState, "ye wlai");
-}
+    _signout(loginState) {
+        this.props.signout(loginState);
+        // console.log(loginState);
+    }
 
 
     _handleChange = (event, index, value) => {
         this.setState({ bloodGroupVal: value })
-        this.handleBloodGroup();
-        this._check();
-
+        this.props.filter(this.props.data, value);
     }
+
     handleBloodGroup() {
-        this.props.dispatch(DashboardActions.fetching(this.state.bloodGroupVal));
+        this.props.fetching(this.state.bloodGroupVal);
     }
     fetchData() {
-        this.props.dispatch(DashboardActions.fetching());
+        this.props.fetching();
     }
 
     render() {
-        //  console.log(this.props.DashboardReducer.data,"dataaa")
+        console.log(this.props)
         return (
             <div>
-                <FlatButton label="Logout" onClick={this._signout.bind(this)}/>
-                <h1>List</h1>
-                {console.log(arr2)}
-                <h2>Filter List</h2>
-
-
-
+                <FlatButton label="Logout" onClick={this._signout.bind(this)} />
                 <DropDownMenu value={this.state.bloodGroupVal} onChange={this._handleChange}>
                     {
                         bloodGroups.map((vall, idx) => {
-                            return <MenuItem key={idx} value={vall} primaryText={vall} />
+                            return <MenuItem key={idx} value={vall} primaryText={vall} />;
                         })
                     }
 
                 </DropDownMenu>
-                {/*<FlatButton type="submit" onClick={this.handleBloodGroup.bind(this)}>Click</FlatButton>*/}
+
 
                 <Table>
                     <TableHeader displaySelectAll={false}>
-                        <TableRow>
+                        <TableRow displayBorder={true}>
                             <TableHeaderColumn>Name</TableHeaderColumn>
                             <TableHeaderColumn>Blood Group</TableHeaderColumn>
                             <TableHeaderColumn>Contact Number</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody showRowHover={true} displayRowCheckbox={false}>
                         {
-                            this.props.DashboardReducer.data.map((val, id) => {
+                            this.props.data.map((val, id) => {
                                 return (
                                     <TableRow key={id}>
-                                        <TableRowColumn>{val.donorName}</TableRowColumn>
+                                        <TableRowColumn >{val.donorName}</TableRowColumn>
                                         <TableRowColumn>{val.bloodGroup}</TableRowColumn>
                                         <TableRowColumn>{val.contact}</TableRowColumn>
                                     </TableRow>
@@ -90,11 +78,15 @@ class DashboardContainer extends Component {
                         }
                     </TableBody>
                 </Table>
-
-
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps)(DashboardContainer);
+const mapStateToProps = ({ dashboard }) => {
+    const { dataFetched, data, data2 } = dashboard
+    return { dataFetched, data, data2 }
+}
+
+
+export default connect(mapStateToProps, { checkLogin, signout, filter, fetching })(Dashboard);

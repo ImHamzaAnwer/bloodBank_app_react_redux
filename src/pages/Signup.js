@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Paper,TextField,RaisedButton } from 'material-ui';
-import { SignupActions } from '../store/actions/SignupActions';
+import { Paper, TextField, RaisedButton } from 'material-ui';
 import { connect } from 'react-redux';
+import { fbLogin, signup } from '../store/actions';
 
 function mapStateToProps(state) {
     return state;
@@ -12,10 +12,10 @@ class Signup extends Component {
         super();
         this._handleSignupSubmit = this._handleSignupSubmit.bind(this);
         this._fbLogin = this._fbLogin.bind(this);
-}
+    }
 
-    _fbLogin(){
-        this.props.dispatch(SignupActions.fbLogin());
+    _fbLogin() {
+        this.props.fbLogin();
     }
 
     _handleSignupSubmit() {
@@ -26,14 +26,13 @@ class Signup extends Component {
             password: this.refs.password.getValue()
         };
 
-        this.props.dispatch(SignupActions.Signup(signupData));
+        this.props.signup(signupData);
     }
 
     render() {
-        // console.log(this.props.SignupReducer);
         return (
-            <div>
-                <Paper zDepth={2} style={{ width: "50%", padding: "15px", margin: "70px auto", textAlign: "center" }}>
+            <div className="col-md-12">
+                <Paper zDepth={1} style={{ width: "50%", padding: "15px", margin: "0 auto", textAlign: "center" }}>
                     <h1>Signup Form</h1>
                     <TextField
                         ref="fName"
@@ -59,8 +58,8 @@ class Signup extends Component {
                         floatingLabelText="Password"
                         fullWidth={true}
                     />
-                    <RaisedButton label="submit" onClick={this._handleSignupSubmit}/>
-                    <RaisedButton label="Facebook Login" onClick={this._fbLogin}/>
+                    <RaisedButton label="submit" onClick={this._handleSignupSubmit} />
+                    <RaisedButton primary label="Facebook Login" onClick={this._fbLogin} />
                 </Paper>
             </div>
         );

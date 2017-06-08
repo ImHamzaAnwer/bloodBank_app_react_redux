@@ -14,7 +14,7 @@ function mapStateToProps(donorState) {
     return donorState;
 }
 
-class DonorRegCont extends Component {
+class DonorReg extends Component {
     constructor() {
         super();
         this.state = {
@@ -87,4 +87,4 @@ class DonorRegCont extends Component {
     }
 }
 
-export default connect(mapStateToProps)(DonorRegCont);
+export default connect(mapStateToProps)(DonorReg);
